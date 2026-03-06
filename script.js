@@ -1,4 +1,3 @@
-//your JS code here. If required.
 // Select elements
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
@@ -12,7 +11,10 @@ window.onload = function() {
     const savedPassword = localStorage.getItem("password");
 
     if(savedUsername && savedPassword) {
-        existingBtn.style.display = "inline-block";
+        usernameInput.value = savedUsername; // pre-fill username
+        passwordInput.value = savedPassword; // pre-fill password
+        checkbox.checked = true; // remember checkbox checked
+        existingBtn.style.display = "inline-block"; // show existing user button
     }
 };
 
@@ -20,8 +22,13 @@ window.onload = function() {
 submitBtn.addEventListener("click", function(e) {
     e.preventDefault(); // prevent page reload
 
-    const username = usernameInput.value;
-    const password = passwordInput.value;
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if(username === "" || password === "") {
+        alert("Please enter username and password");
+        return;
+    }
 
     alert(`Logged in as ${username}`);
 
@@ -34,11 +41,6 @@ submitBtn.addEventListener("click", function(e) {
         localStorage.removeItem("password");
         existingBtn.style.display = "none";
     }
-
-    // clear form
-    usernameInput.value = "";
-    passwordInput.value = "";
-    checkbox.checked = false;
 });
 
 // Existing user login
